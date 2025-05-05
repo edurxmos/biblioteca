@@ -19,6 +19,6 @@ public class Usuario {
     private String email;
 
     @OneToMany(mappedBy = "usuario")
-    private Set<Livro> livros = new HashSet<>();
+    private Set<Emprestimo> emprestimos = new HashSet<>();
 
 }

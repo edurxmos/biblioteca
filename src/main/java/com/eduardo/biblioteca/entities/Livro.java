@@ -3,6 +3,9 @@ package com.eduardo.biblioteca.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Data
 @Entity
 @Table(name = "tb_livro")
@@ -16,8 +19,7 @@ public class Livro {
     private String autor;
     private boolean disponivel;
 
-    @ManyToOne
-    @JoinColumn(name = "usuario_id")
-    private Usuario usuario;
+    @ManyToMany(mappedBy = "livros")
+    private Set<Emprestimo> emprestimos = new HashSet<>();
 
 }
