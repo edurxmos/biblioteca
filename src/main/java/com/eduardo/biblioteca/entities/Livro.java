@@ -16,4 +16,8 @@ public class Livro {
     private String autor;
     private boolean disponivel;
 
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+
 }
