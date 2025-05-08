@@ -2,7 +2,10 @@ package com.eduardo.biblioteca.services;
 
 import com.eduardo.biblioteca.dtos.UsuarioDTO;
 import com.eduardo.biblioteca.entities.Usuario;
+import com.eduardo.biblioteca.repositories.LivroRepository;
 import com.eduardo.biblioteca.repositories.UsuarioRepository;
+import com.eduardo.biblioteca.services.exceptions.NaoEncontradoException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -15,6 +18,8 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+    @Autowired
+    private LivroRepository livroRepository;
 
     @Transactional(readOnly = true)
     public List<UsuarioDTO> findAll() {
@@ -24,7 +29,7 @@ public class UsuarioService {
 
     @Transactional(readOnly = true)
     public UsuarioDTO findById(Long id) {
-        Usuario entity = usuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        Usuario entity = usuarioRepository.findById(id).orElseThrow(() -> new NaoEncontradoException("Recurso não encontrado"));
         return new UsuarioDTO(entity);
     }
 
@@ -38,15 +43,24 @@ public class UsuarioService {
 
     @Transactional
     public UsuarioDTO update(Long id, UsuarioDTO dto) {
-        Usuario entity = usuarioRepository.getReferenceById(id);
-        copyDtoToEntity(dto, entity);
-        entity = usuarioRepository.save(entity);
-        return new UsuarioDTO(entity);
+        try {
+            Usuario entity = usuarioRepository.getReferenceById(id);
+            copyDtoToEntity(dto, entity);
+            entity = usuarioRepository.save(entity);
+            return new UsuarioDTO(entity);
+        } catch (EntityNotFoundException e) {
+            throw new NaoEncontradoException("Recurso não encontrado");
+        }
+
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
     public void delete(Long id) {
-        usuarioRepository.deleteById(id);
+        if (!livroRepository.existsById(id)) {
+            throw new NaoEncontradoException("Recurso não encontrado");
+        }
+
+        livroRepository.deleteById(id);
     }
 
     public void copyDtoToEntity(UsuarioDTO dto, Usuario entity) {

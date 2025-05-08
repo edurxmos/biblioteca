@@ -3,6 +3,8 @@ package com.eduardo.biblioteca.services;
 import com.eduardo.biblioteca.dtos.LivroDTO;
 import com.eduardo.biblioteca.entities.Livro;
 import com.eduardo.biblioteca.repositories.LivroRepository;
+import com.eduardo.biblioteca.services.exceptions.NaoEncontradoException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -24,7 +26,7 @@ public class LivroService {
 
     @Transactional(readOnly = true)
     public LivroDTO findById(Long id) {
-        Livro entity = livroRepository.findById(id).orElseThrow(() -> new RuntimeException("Livro não encontrado"));
+        Livro entity = livroRepository.findById(id).orElseThrow(() -> new NaoEncontradoException("Recurso não encontrado"));
         return new LivroDTO(entity);
     }
 
@@ -39,14 +41,22 @@ public class LivroService {
 
     @Transactional
     public LivroDTO update(Long id, LivroDTO dto) {
-        Livro entity = livroRepository.getReferenceById(id);
-        copyDtoToEntity(dto, entity);
-        livroRepository.save(entity);
-        return new LivroDTO(entity);
+        try {
+            Livro entity = livroRepository.getReferenceById(id);
+            copyDtoToEntity(dto, entity);
+            livroRepository.save(entity);
+            return new LivroDTO(entity);
+        } catch (EntityNotFoundException e) {
+            throw new NaoEncontradoException("Recurso não encontrado");
+        }
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
     public void delete(Long id) {
+        if (!livroRepository.existsById(id)) {
+            throw new NaoEncontradoException("Recurso não encontrado");
+        }
+
         livroRepository.deleteById(id);
     }
 
