@@ -7,11 +7,11 @@ import com.eduardo.biblioteca.repositories.UsuarioRepository;
 import com.eduardo.biblioteca.services.exceptions.NaoEncontradoException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 public class UsuarioService {
@@ -22,9 +22,9 @@ public class UsuarioService {
     private LivroRepository livroRepository;
 
     @Transactional(readOnly = true)
-    public List<UsuarioDTO> findAll() {
-        List<Usuario> list = usuarioRepository.findAll();
-        return list.stream().map(x -> new UsuarioDTO(x)).toList();
+    public Page<UsuarioDTO> findAll(Pageable pageable) {
+        Page<Usuario> result = usuarioRepository.findAll(pageable);
+        return result.map(x -> new UsuarioDTO(x));
     }
 
     @Transactional(readOnly = true)

@@ -3,6 +3,8 @@ package com.eduardo.biblioteca.controllers;
 import com.eduardo.biblioteca.dtos.LivroDTO;
 import com.eduardo.biblioteca.services.LivroService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +19,8 @@ public class LivroController {
     private LivroService livroService;
 
     @GetMapping
-    public ResponseEntity<List<LivroDTO>> findAll() {
-        return ResponseEntity.ok(livroService.findAll());
+    public ResponseEntity<Page<LivroDTO>> findAll(Pageable pageable) {
+        return ResponseEntity.ok(livroService.findAll(pageable));
     }
 
     @GetMapping("/{id}")
