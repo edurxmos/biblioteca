@@ -2,6 +2,7 @@ package com.eduardo.biblioteca.controllers;
 
 import com.eduardo.biblioteca.dtos.LivroDTO;
 import com.eduardo.biblioteca.services.LivroService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,13 +30,13 @@ public class LivroController {
     }
 
     @PostMapping
-    public ResponseEntity<LivroDTO> insert(@RequestBody LivroDTO dto) {
+    public ResponseEntity<LivroDTO> insert(@Valid @RequestBody LivroDTO dto) {
         dto = livroService.insert(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<LivroDTO> update(@PathVariable Long id, @RequestBody LivroDTO dto) {
+    public ResponseEntity<LivroDTO> update(@PathVariable Long id, @Valid @RequestBody LivroDTO dto) {
         dto = livroService.update(id, dto);
         return ResponseEntity.ok(dto);
     }
