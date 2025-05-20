@@ -1,34 +1,47 @@
 package com.eduardo.biblioteca.entities;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
 
-@Data
 @Entity
 @Table(name = "tb_emprestimo")
 public class Emprestimo {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @EmbeddedId
+    private EmprestimoPK id = new EmprestimoPK();
 
+    @Getter @Setter
     private LocalDate dataEmprestimo;
+    @Getter @Setter
     private LocalDate dataDevolucao;
 
-    @ManyToMany
-    @JoinTable(
-            name = "emprestimo_livro",
-            joinColumns = @JoinColumn(name = "emprestimo_id"),
-            inverseJoinColumns = @JoinColumn(name = "livro_id")
-    )
-    private Set<Livro> livros = new HashSet<>();
+    public Emprestimo() {
+    }
 
-    @ManyToOne
-    @JoinColumn(name = "usuario_id")
-    private Usuario usuario;
+    public Emprestimo(Usuario usuario, Livro livro, LocalDate dataEmprestimo, LocalDate dataDevolucao) {
+        id.setUsuario(usuario);
+        id.setLivro(livro);
+        this.dataEmprestimo = dataEmprestimo;
+        this.dataDevolucao = dataDevolucao;
+    }
+
+    public Usuario getUsuario() {
+        return id.getUsuario();
+    }
+
+    public void setUsuario(Usuario usuario) {
+        id.setUsuario(usuario);
+    }
+
+    public Livro getLivro() {
+        return id.getLivro();
+    }
+
+    public void setLivro(Livro livro) {
+        id.setLivro(livro);
+    }
 
 }

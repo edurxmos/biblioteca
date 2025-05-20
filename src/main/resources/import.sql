@@ -23,3 +23,7 @@ INSERT INTO tb_livro_genero (livro_id, genero_id) VALUES (4, 4), (4, 5);
 INSERT INTO tb_livro_genero (livro_id, genero_id) VALUES (5, 2), (5, 5);
 INSERT INTO tb_livro_genero (livro_id, genero_id) VALUES (6, 3), (6, 1);
 INSERT INTO tb_livro_genero (livro_id, genero_id) VALUES (7, 2), (7, 5);
+
+INSERT INTO tb_emprestimo (usuario_id, livro_id, data_emprestimo, data_devolucao) VALUES (1, 1, '2025-05-01', '2025-05-08');
+INSERT INTO tb_emprestimo (usuario_id, livro_id, data_emprestimo, data_devolucao) VALUES (2, 2, '2025-05-03', '2025-05-10');
+INSERT INTO tb_emprestimo (usuario_id, livro_id, data_emprestimo, data_devolucao) VALUES (3, 6, '2025-05-05', '2025-05-12');

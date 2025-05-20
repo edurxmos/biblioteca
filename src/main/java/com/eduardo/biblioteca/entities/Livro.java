@@ -3,8 +3,10 @@ package com.eduardo.biblioteca.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -25,5 +27,13 @@ public class Livro {
     joinColumns = @JoinColumn(name = "livro_id"),
     inverseJoinColumns = @JoinColumn(name = "genero_id"))
     private Set<Genero> generos = new HashSet<>();
+
+    @Getter
+    @OneToMany(mappedBy = "id.livro")
+    private Set<Emprestimo> emprestimos = new HashSet<>();
+
+    public List<Usuario> getUsuarios() {
+        return emprestimos.stream().map(x -> x.getUsuario()).toList();
+    }
 
 }

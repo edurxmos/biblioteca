@@ -2,8 +2,10 @@ package com.eduardo.biblioteca.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -19,7 +21,14 @@ public class Usuario {
     @Column(unique = true)
     private String email;
 
-    @OneToMany(mappedBy = "usuario")
+    @Getter
+    @OneToMany(mappedBy = "id.usuario")
     private Set<Emprestimo> emprestimos = new HashSet<>();
+
+    public List<Livro> getLivros() {
+        return emprestimos.stream().map(x -> x.getLivro()).toList();
+    }
+
+
 
 }
