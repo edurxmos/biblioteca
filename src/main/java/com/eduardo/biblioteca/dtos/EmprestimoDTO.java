@@ -1,8 +1,6 @@
 package com.eduardo.biblioteca.dtos;
 
 import com.eduardo.biblioteca.entities.Emprestimo;
-import jakarta.validation.constraints.Future;
-import jakarta.validation.constraints.PastOrPresent;
 import lombok.Data;
 
 import java.time.LocalDate;
