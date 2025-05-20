@@ -9,3 +9,17 @@ INSERT INTO tb_livro (nome, autor, disponivel) VALUES ('Orgulho e Preconceito', 
 INSERT INTO tb_livro (nome, autor, disponivel) VALUES ('Cem Anos de Solidão', 'Gabriel García Márquez', true);
 INSERT INTO tb_livro (nome, autor, disponivel) VALUES ('Harry Potter e a Pedra Filosofal', 'J.K. Rowling', true);
 INSERT INTO tb_livro (nome, autor, disponivel) VALUES ('A Revolução dos Bichos', 'George Orwell', true);
+
+INSERT INTO tb_genero (nome) VALUES ('Aventura');
+INSERT INTO tb_genero (nome) VALUES ('Ficção');
+INSERT INTO tb_genero (nome) VALUES ('Fantasia');
+INSERT INTO tb_genero (nome) VALUES ('Romance');
+INSERT INTO tb_genero (nome) VALUES ('Drama');
+
+INSERT INTO tb_livro_genero (livro_id, genero_id) VALUES (1, 1), (1, 5);
+INSERT INTO tb_livro_genero (livro_id, genero_id) VALUES (2, 2), (2, 5);
+INSERT INTO tb_livro_genero (livro_id, genero_id) VALUES (3, 3), (3, 1);
+INSERT INTO tb_livro_genero (livro_id, genero_id) VALUES (4, 4), (4, 5);
+INSERT INTO tb_livro_genero (livro_id, genero_id) VALUES (5, 2), (5, 5);
+INSERT INTO tb_livro_genero (livro_id, genero_id) VALUES (6, 3), (6, 1);
+INSERT INTO tb_livro_genero (livro_id, genero_id) VALUES (7, 2), (7, 5);

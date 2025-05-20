@@ -1,9 +1,13 @@
 package com.eduardo.biblioteca.dtos;
 
+import com.eduardo.biblioteca.entities.Genero;
 import com.eduardo.biblioteca.entities.Livro;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 public class LivroDTO {
@@ -20,6 +24,8 @@ public class LivroDTO {
 
     private boolean disponivel;
 
+    private Set<String> generos = new HashSet<>();
+
     public LivroDTO() {
     }
 
@@ -28,5 +34,10 @@ public class LivroDTO {
         this.nome = entity.getNome();
         this.autor = entity.getAutor();
         this.disponivel = entity.isDisponivel();
+
+        for (Genero x : entity.getGeneros()) {
+            generos.add(x.getNome());
+        }
+
     }
 }
