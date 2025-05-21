@@ -1,5 +1,6 @@
 package com.eduardo.biblioteca.entities;
 
+import com.eduardo.biblioteca.services.exceptions.LivroNaoDisponivelException;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -34,6 +35,17 @@ public class Livro {
 
     public List<Usuario> getUsuarios() {
         return emprestimos.stream().map(x -> x.getUsuario()).toList();
+    }
+
+    public boolean verifDisponibilidade() {
+        return disponivel;
+    }
+
+    public void emprestar() {
+        if (!disponivel) {
+            throw new LivroNaoDisponivelException("Este livro não está disponível.");
+        }
+        this.disponivel = false;
     }
 
 }

@@ -2,6 +2,7 @@ package com.eduardo.biblioteca.controllers.handlers;
 
 import com.eduardo.biblioteca.dtos.CustomError;
 import com.eduardo.biblioteca.dtos.ValidationError;
+import com.eduardo.biblioteca.services.exceptions.LivroNaoDisponivelException;
 import com.eduardo.biblioteca.services.exceptions.NaoEncontradoException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -32,6 +33,13 @@ public class ControllerExceptionHandler {
             err.addError(f.getField(), f.getDefaultMessage());
         }
 
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(LivroNaoDisponivelException.class)
+    public ResponseEntity<CustomError> livroNaoDisponivelException(LivroNaoDisponivelException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.CONFLICT;
+        CustomError err = new CustomError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(err);
     }
 
