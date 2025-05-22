@@ -28,6 +28,10 @@ public class Emprestimo {
         this.dataDevolucao = dataDevolucao;
     }
 
+    public void renovar() {
+        this.dataDevolucao = this.getDataDevolucao().plusDays(7);
+    }
+
     public Usuario getUsuario() {
         return id.getUsuario();
     }

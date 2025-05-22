@@ -68,6 +68,22 @@ public class EmprestimoService {
         }
     }
 
+    @Transactional
+    public EmprestimoDTO renovarEmprestimo(Long usuarioId, Long livroId) {
+        try {
+            EmprestimoPK id = new EmprestimoPK();
+            id.setUsuario(usuarioRepository.getReferenceById(usuarioId));
+            id.setLivro(livroRepository.getReferenceById(livroId));
+
+            Emprestimo entity = emprestimoRepository.getReferenceById(id);
+            entity.renovar();
+            emprestimoRepository.save(entity);
+            return new EmprestimoDTO(entity);
+        } catch (EntityNotFoundException e) {
+            throw new NaoEncontradoException("Recurso não encontrado");
+        }
+    }
+
 
 
 }

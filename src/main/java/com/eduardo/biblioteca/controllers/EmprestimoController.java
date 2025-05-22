@@ -31,4 +31,9 @@ public class EmprestimoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(emprestimoService.realizarEmprestimo(usuarioId, livroId));
     }
 
+    @PutMapping("/{usuarioId}/{livroId}")
+    public ResponseEntity<EmprestimoDTO> renovarEmprestimo(@PathVariable Long usuarioId, @PathVariable Long livroId) {
+        return ResponseEntity.ok().body(emprestimoService.renovarEmprestimo(usuarioId, livroId));
+    }
+
 }
