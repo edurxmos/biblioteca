@@ -1,0 +1,7 @@
+package com.eduardo.biblioteca.services.exceptions;
+
+public class DataBaseException extends RuntimeException {
+  public DataBaseException(String msg) {
+    super(msg);
+  }
+}

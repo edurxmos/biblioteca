@@ -3,9 +3,11 @@ package com.eduardo.biblioteca.services;
 import com.eduardo.biblioteca.dtos.LivroDTO;
 import com.eduardo.biblioteca.entities.Livro;
 import com.eduardo.biblioteca.repositories.LivroRepository;
+import com.eduardo.biblioteca.services.exceptions.DataBaseException;
 import com.eduardo.biblioteca.services.exceptions.NaoEncontradoException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -53,11 +55,14 @@ public class LivroService {
 
     @Transactional(propagation = Propagation.SUPPORTS)
     public void delete(Long id) {
-        if (!livroRepository.existsById(id)) {
-            throw new NaoEncontradoException("Recurso não encontrado");
+        try {
+            if (!livroRepository.existsById(id)) {
+                throw new NaoEncontradoException("Recurso não encontrado");
+            }
+            livroRepository.deleteById(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new DataBaseException("Falha de integridade relacional");
         }
-
-        livroRepository.deleteById(id);
     }
 
     public void copyDtoToEntity(LivroDTO dto, Livro entity) {
