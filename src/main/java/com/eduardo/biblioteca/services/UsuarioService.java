@@ -1,7 +1,10 @@
 package com.eduardo.biblioteca.services;
 
+import com.eduardo.biblioteca.dtos.EmprestimoDTO;
 import com.eduardo.biblioteca.dtos.UsuarioDTO;
+import com.eduardo.biblioteca.entities.Emprestimo;
 import com.eduardo.biblioteca.entities.Usuario;
+import com.eduardo.biblioteca.projections.UsuarioEmprestimosProjection;
 import com.eduardo.biblioteca.repositories.LivroRepository;
 import com.eduardo.biblioteca.repositories.UsuarioRepository;
 import com.eduardo.biblioteca.services.exceptions.DataBaseException;
@@ -14,6 +17,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class UsuarioService {
@@ -33,6 +38,15 @@ public class UsuarioService {
     public UsuarioDTO findById(Long id) {
         Usuario entity = usuarioRepository.findById(id).orElseThrow(() -> new NaoEncontradoException("Recurso não encontrado"));
         return new UsuarioDTO(entity);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<UsuarioEmprestimosProjection> usuarioEmprestimos(Long id, Pageable pageable) {
+        if (!usuarioRepository.existsById(id)) {
+            throw new NaoEncontradoException("Recurso não encontrado");
+        } else {
+            return usuarioRepository.usuarioEmprestimos(id, pageable);
+        }
     }
 
     @Transactional

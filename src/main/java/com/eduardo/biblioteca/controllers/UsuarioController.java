@@ -1,6 +1,7 @@
 package com.eduardo.biblioteca.controllers;
 
 import com.eduardo.biblioteca.dtos.UsuarioDTO;
+import com.eduardo.biblioteca.projections.UsuarioEmprestimosProjection;
 import com.eduardo.biblioteca.services.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,11 @@ public class UsuarioController {
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioDTO> findById(@PathVariable Long id) {
         return ResponseEntity.ok(usuarioService.findById(id));
+    }
+
+    @GetMapping("/{id}/emprestimos")
+    public ResponseEntity<Page<UsuarioEmprestimosProjection>> usuarioEmprestimos(@PathVariable Long id, Pageable pageable) {
+        return ResponseEntity.ok(usuarioService.usuarioEmprestimos(id, pageable));
     }
 
     @PostMapping
