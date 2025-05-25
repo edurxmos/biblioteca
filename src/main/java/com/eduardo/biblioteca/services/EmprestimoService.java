@@ -5,6 +5,7 @@ import com.eduardo.biblioteca.entities.Emprestimo;
 import com.eduardo.biblioteca.entities.EmprestimoPK;
 import com.eduardo.biblioteca.entities.Livro;
 import com.eduardo.biblioteca.entities.Usuario;
+import com.eduardo.biblioteca.projections.EmprestimosDataProjection;
 import com.eduardo.biblioteca.repositories.EmprestimoRepository;
 import com.eduardo.biblioteca.repositories.LivroRepository;
 import com.eduardo.biblioteca.repositories.UsuarioRepository;
@@ -84,6 +85,15 @@ public class EmprestimoService {
         }
     }
 
+    @Transactional(readOnly = true)
+    public Page<EmprestimosDataProjection> findByData(LocalDate data, Pageable pageable) {
+        Page<EmprestimosDataProjection> result = emprestimoRepository.findByData(data, pageable);
+        if (result.isEmpty()) {
+            throw new NaoEncontradoException("Não houve empréstimos nesta data");
+        } else {
+            return result;
+        }
+    }
 
 
 }
