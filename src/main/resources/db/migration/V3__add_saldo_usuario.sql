@@ -1,0 +1,1 @@
+ALTER TABLE tb_usuario ADD saldo DECIMAL(10, 2) DEFAULT 0.0;
