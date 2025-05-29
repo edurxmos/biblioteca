@@ -73,10 +73,10 @@ public class UsuarioService {
     @Transactional(propagation = Propagation.SUPPORTS)
     public void delete(Long id) {
         try {
-            if (!livroRepository.existsById(id)) {
+            if (!usuarioRepository.existsById(id)) {
                 throw new NaoEncontradoException("Recurso não encontrado");
             }
-            livroRepository.deleteById(id);
+            usuarioRepository.deleteById(id);
         } catch (DataIntegrityViolationException e) {
             throw new DataBaseException("Falha de integridade relacional");
         }
