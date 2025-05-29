@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @Data
 public class UsuarioDTO {
 
@@ -18,6 +20,8 @@ public class UsuarioDTO {
     @Size(min = 3, max = 80)
     private String email;
 
+    private BigDecimal saldo;
+
     public UsuarioDTO() {
     }
 
@@ -25,5 +29,6 @@ public class UsuarioDTO {
         this.id = entity.getId();
         this.nome = entity.getNome();
         this.email = entity.getEmail();
+        this.saldo = entity.getSaldo();
     }
 }

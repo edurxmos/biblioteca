@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -51,5 +52,11 @@ public class UsuarioController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         usuarioService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("{id}/deposito/{valor}")
+    public ResponseEntity<Void> deposito(@PathVariable Long id, @PathVariable BigDecimal valor) {
+        usuarioService.deposito(id, valor);
+        return ResponseEntity.ok().build();
     }
 }

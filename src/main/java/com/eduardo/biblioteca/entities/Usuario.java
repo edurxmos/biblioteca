@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -25,10 +26,10 @@ public class Usuario {
     @OneToMany(mappedBy = "id.usuario")
     private Set<Emprestimo> emprestimos = new HashSet<>();
 
+    private BigDecimal saldo;
+
     public List<Livro> getLivros() {
         return emprestimos.stream().map(x -> x.getLivro()).toList();
     }
-
-
 
 }

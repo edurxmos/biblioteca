@@ -1,8 +1,6 @@
 package com.eduardo.biblioteca.services;
 
-import com.eduardo.biblioteca.dtos.EmprestimoDTO;
 import com.eduardo.biblioteca.dtos.UsuarioDTO;
-import com.eduardo.biblioteca.entities.Emprestimo;
 import com.eduardo.biblioteca.entities.Usuario;
 import com.eduardo.biblioteca.projections.UsuarioEmprestimosProjection;
 import com.eduardo.biblioteca.repositories.LivroRepository;
@@ -18,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -80,7 +79,18 @@ public class UsuarioService {
         } catch (DataIntegrityViolationException e) {
             throw new DataBaseException("Falha de integridade relacional");
         }
+    }
 
+    // depois vou refatorar para melhorar a otimização
+    @Transactional
+    public void deposito(Long id, BigDecimal valor) {
+        try {
+            Usuario entity = usuarioRepository.getReferenceById(id);
+            entity.setSaldo(entity.getSaldo().add(valor));
+            usuarioRepository.save(entity);
+        } catch (EntityNotFoundException e) {
+            throw new NaoEncontradoException("Recurso não encontrado");
+        }
     }
 
     public void copyDtoToEntity(UsuarioDTO dto, Usuario entity) {
