@@ -6,6 +6,7 @@ import com.eduardo.biblioteca.projections.UsuarioEmprestimosProjection;
 import com.eduardo.biblioteca.repositories.LivroRepository;
 import com.eduardo.biblioteca.repositories.UsuarioRepository;
 import com.eduardo.biblioteca.services.exceptions.DataBaseException;
+import com.eduardo.biblioteca.services.exceptions.DepositoException;
 import com.eduardo.biblioteca.services.exceptions.NaoEncontradoException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @Service
 public class UsuarioService {
@@ -81,10 +81,12 @@ public class UsuarioService {
         }
     }
 
-    // depois vou refatorar para melhorar a otimização
     @Transactional
     public void deposito(Long id, BigDecimal valor) {
         try {
+            if (valor.compareTo(new BigDecimal("1.00")) == -1) {
+                throw new DepositoException("Valor do depósito deve ser igual ou maior que 1 real");
+            }
             Usuario entity = usuarioRepository.getReferenceById(id);
             entity.setSaldo(entity.getSaldo().add(valor));
             usuarioRepository.save(entity);

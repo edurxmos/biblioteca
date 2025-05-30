@@ -20,7 +20,7 @@ public class UsuarioDTO {
     @Size(min = 3, max = 80)
     private String email;
 
-    private BigDecimal saldo;
+    private BigDecimal saldo = BigDecimal.ZERO;
 
     public UsuarioDTO() {
     }

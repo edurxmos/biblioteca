@@ -3,6 +3,7 @@ package com.eduardo.biblioteca.controllers.handlers;
 import com.eduardo.biblioteca.dtos.CustomError;
 import com.eduardo.biblioteca.dtos.ValidationError;
 import com.eduardo.biblioteca.services.exceptions.DataBaseException;
+import com.eduardo.biblioteca.services.exceptions.DepositoException;
 import com.eduardo.biblioteca.services.exceptions.LivroNaoDisponivelException;
 import com.eduardo.biblioteca.services.exceptions.NaoEncontradoException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -47,6 +48,13 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler(DataBaseException.class)
     public ResponseEntity<CustomError> database(DataBaseException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        CustomError err = new CustomError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(DepositoException.class)
+    public ResponseEntity<CustomError> depositoException(DepositoException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         CustomError err = new CustomError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(err);
