@@ -52,6 +52,7 @@ public class UsuarioService {
     public UsuarioDTO insert(UsuarioDTO dto) {
         Usuario entity = new Usuario();
         copyDtoToEntity(dto, entity);
+        entity.setSaldo(BigDecimal.ZERO);
         entity = usuarioRepository.save(entity);
         return new UsuarioDTO(entity);
     }
