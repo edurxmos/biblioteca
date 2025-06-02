@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,6 +23,8 @@ public class LivroDTO {
     @Size(min = 3, max = 80, message = "O nome do autor precisa ter de 3 a 80 caracteres.")
     private String autor;
 
+    private BigDecimal preco;
+
     private boolean disponivel;
 
     private Set<String> generos = new HashSet<>();
@@ -33,6 +36,7 @@ public class LivroDTO {
         this.id = entity.getId();
         this.nome = entity.getNome();
         this.autor = entity.getAutor();
+        this.preco = entity.getPreco();
         this.disponivel = entity.isDisponivel();
 
         for (Genero x : entity.getGeneros()) {
