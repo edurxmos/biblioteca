@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,6 +23,7 @@ public class Livro {
     private String nome;
     private String autor;
     private boolean disponivel;
+    private BigDecimal preco;
 
     @ManyToMany
     @JoinTable(name = "tb_livro_genero",

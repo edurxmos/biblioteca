@@ -1,0 +1,10 @@
+UPDATE tb_livro SET preco = 39.90 WHERE id = 1;
+UPDATE tb_livro SET preco = 29.90 WHERE id = 2;
+UPDATE tb_livro SET preco = 59.90 WHERE id = 3;
+UPDATE tb_livro SET preco = 34.90 WHERE id = 4;
+UPDATE tb_livro SET preco = 44.90 WHERE id = 5;
+UPDATE tb_livro SET preco = 49.90 WHERE id = 6;
+UPDATE tb_livro SET preco = 24.90 WHERE id = 7;
+UPDATE tb_livro SET preco = 27.90 WHERE id = 8;
+UPDATE tb_livro SET preco = 31.90 WHERE id = 9;
+UPDATE tb_livro SET preco = 19.90 WHERE id = 10;

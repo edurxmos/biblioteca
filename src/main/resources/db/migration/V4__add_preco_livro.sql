@@ -1,0 +1,1 @@
+ALTER TABLE tb_livro ADD preco DECIMAL(10, 2) DEFAULT 0.00;
