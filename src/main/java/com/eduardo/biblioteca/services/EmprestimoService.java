@@ -81,12 +81,23 @@ public class EmprestimoService {
     @Transactional
     public EmprestimoDTO renovarEmprestimo(Long usuarioId, Long livroId) {
         try {
+            Usuario usuario = usuarioRepository.getReferenceById(usuarioId);
+            Livro livro = livroRepository.getReferenceById(livroId);
+
+            BigDecimal saldo = usuario.getSaldo();
+            BigDecimal preco = new BigDecimal(5);
+
             EmprestimoPK id = new EmprestimoPK();
-            id.setUsuario(usuarioRepository.getReferenceById(usuarioId));
-            id.setLivro(livroRepository.getReferenceById(livroId));
+            id.setUsuario(usuario);
+            id.setLivro(livro);
+
+            if (saldo.compareTo(preco) == -1) {
+                throw new SaldoInsuficienteException("Seu saldo é insuficiente");
+            }
 
             Emprestimo entity = emprestimoRepository.getReferenceById(id);
             entity.renovar();
+            id.getUsuario().setSaldo(saldo.subtract(preco));
             emprestimoRepository.save(entity);
             return new EmprestimoDTO(entity);
         } catch (EntityNotFoundException e) {
