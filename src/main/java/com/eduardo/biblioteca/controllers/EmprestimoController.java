@@ -1,6 +1,7 @@
 package com.eduardo.biblioteca.controllers;
 
 import com.eduardo.biblioteca.dtos.EmprestimoDTO;
+import com.eduardo.biblioteca.dtos.EmprestimoMinDTO;
 import com.eduardo.biblioteca.projections.EmprestimosDataProjection;
 import com.eduardo.biblioteca.services.EmprestimoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +21,12 @@ public class EmprestimoController {
     private EmprestimoService emprestimoService;
 
     @GetMapping
-    public ResponseEntity<Page<EmprestimoDTO>> findAll(Pageable pageable) {
+    public ResponseEntity<Page<EmprestimoMinDTO>> findAll(Pageable pageable) {
         return ResponseEntity.ok().body(emprestimoService.findAll(pageable));
     }
 
     @GetMapping("/{usuarioId}/{livroId}")
-    public ResponseEntity<EmprestimoDTO> findById(@PathVariable Long usuarioId, @PathVariable Long livroId) {
+    public ResponseEntity<EmprestimoMinDTO> findById(@PathVariable Long usuarioId, @PathVariable Long livroId) {
         return ResponseEntity.ok().body(emprestimoService.findById(usuarioId, livroId));
     }
 

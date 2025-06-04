@@ -1,6 +1,7 @@
 package com.eduardo.biblioteca.services;
 
 import com.eduardo.biblioteca.dtos.EmprestimoDTO;
+import com.eduardo.biblioteca.dtos.EmprestimoMinDTO;
 import com.eduardo.biblioteca.entities.Emprestimo;
 import com.eduardo.biblioteca.entities.EmprestimoPK;
 import com.eduardo.biblioteca.entities.Livro;
@@ -33,12 +34,12 @@ public class EmprestimoService {
     private LivroRepository livroRepository;
 
     @Transactional(readOnly = true)
-    public Page<EmprestimoDTO> findAll(Pageable pageable) {
-        return emprestimoRepository.findAll(pageable).map(x -> new EmprestimoDTO(x));
+    public Page<EmprestimoMinDTO> findAll(Pageable pageable) {
+        return emprestimoRepository.findAll(pageable).map(x -> new EmprestimoMinDTO(x));
     }
 
     @Transactional(readOnly = true)
-    public EmprestimoDTO findById(Long usuarioId, Long livroId) {
+    public EmprestimoMinDTO findById(Long usuarioId, Long livroId) {
         Usuario usuario = usuarioRepository.getReferenceById(usuarioId);
 
         Livro livro = livroRepository.getReferenceById(livroId);
@@ -49,7 +50,7 @@ public class EmprestimoService {
 
         Emprestimo emprestimo = emprestimoRepository.findById(id).orElseThrow(() -> new NaoEncontradoException("Empréstimo não encontrado"));
 
-        return new EmprestimoDTO(emprestimo);
+        return new EmprestimoMinDTO(emprestimo);
     }
 
     @Transactional
