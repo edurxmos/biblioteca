@@ -7,13 +7,14 @@ import lombok.Data;
 
 @Data
 @Embeddable
-public class EmprestimoPK {
+public class LoanPK {
 
     @ManyToOne
-    @JoinColumn(name = "usuario_id")
-    private Usuario usuario;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @ManyToOne
-    @JoinColumn(name = "livro_id")
-    private Livro livro;
+    @JoinColumn(name = "book_id")
+    private Book book;
+
 }

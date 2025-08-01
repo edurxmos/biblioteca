@@ -10,16 +10,16 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(of = {"id"})
 @Entity
-@Table(name = "tb_genero")
-public class Genero {
+@Table(name = "tb_genre")
+public class Genre {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nome;
+    private String name;
 
-    @ManyToMany(mappedBy = "generos")
-    private Set<Livro> livros = new HashSet<>();
+    @ManyToMany(mappedBy = "genres")
+    private Set<Book> books = new HashSet<>();
 
 }

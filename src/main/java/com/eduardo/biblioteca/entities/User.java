@@ -11,25 +11,26 @@ import java.util.Set;
 
 @Data
 @Entity
-@Table(name = "tb_usuario")
-public class Usuario {
+@Table(name = "tb_user")
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nome;
+
+    private String name;
 
     @Column(unique = true)
     private String email;
 
     @Getter
-    @OneToMany(mappedBy = "id.usuario")
-    private Set<Emprestimo> emprestimos = new HashSet<>();
+    @OneToMany(mappedBy = "id.user")
+    private Set<Loan> loans = new HashSet<>();
 
-    private BigDecimal saldo;
+    private BigDecimal balance;
 
-    public List<Livro> getLivros() {
-        return emprestimos.stream().map(x -> x.getLivro()).toList();
+    public List<Book> getBooks() {
+        return loans.stream().map(x -> x.getBook()).toList();
     }
 
 }
